@@ -15,7 +15,6 @@ import org.springframework.kafka.support.serializer.JsonSerializer
 @Configuration
 @EnableKafka
 class KafkaConfig {
-
     @Bean
     fun <T> producerFactory(): ProducerFactory<String, T> {
         val configProps = mapOf(
