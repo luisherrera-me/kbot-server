@@ -1,0 +1,55 @@
+spring:
+  datasource:
+    username: ${spring.datasource.username}
+    url: ${spring.datasource.url}
+    hikari:
+      connection-timeout: '20000'
+    password: ${spring.datasource.password}
+  application:
+    name: kbot-robot
+  profiles:
+    active: default
+  config:
+    import: "optional:configserver:http://localhost:7777"
+  jpa:
+    properties:
+      hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      format_sql: 'false'
+    hibernate:
+      ddl-auto: update
+    show-sql: 'true'
+  cloud:
+    compatibility-verifier:
+      enabled: 'false'
+  kafka:
+    consumer:
+      group-id: sensor-group
+      auto-offset-reset: earliest
+    producer:
+      bootstrap-servers: localhost:9092
+    listener:
+      missing-topics-fatal: false
+
+server:
+  port: 0
+  servlet:
+    context-path: /kbot
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+
+eureka:
+  instance:
+    instance-id: "${spring.application.name}:${random.value}"
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
